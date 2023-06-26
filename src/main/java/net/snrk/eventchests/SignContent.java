@@ -70,7 +70,7 @@ public class SignContent {
         if (sign != null) {
             boolean isEmpty = true;
             for (int i = 0; i < SIGN_LINE_COUNT; i++) {
-                int length = sign.getTextOnRow(i, false).getString().length();
+                int length = sign.getFrontText().getMessage(i, false).getString().length();
                 if (length > 0) {
                     isEmpty = false;
                     break;
@@ -102,7 +102,7 @@ public class SignContent {
     public static void saveSignContentAtCrosshair() {
         SignBlockEntity sign = getSignAtCrosshair();
         if (sign != null) {
-            DyeColor dye = sign.getTextColor();
+            DyeColor dye = sign.getFrontText().getColor();
             if (dye != DyeColor.BLACK) {
                 String dyeId = dye.getName() + "_dye";
                 String dyeText = formatForColorName("white") + FORMAT_CHAR + "o" + dyeId;
@@ -119,9 +119,9 @@ public class SignContent {
             }
 
             recreateSavedSignContent();
-            savedSignDyeColor = sign.getTextColor();
+            savedSignDyeColor = sign.getFrontText().getColor();
             for (int i = 0; i < SIGN_LINE_COUNT; i++) {
-                Text text = sign.getTextOnRow(i, false);
+                Text text = sign.getFrontText().getMessage(i, false);
                 Line line = savedSignContent.get(i);
                 line.text = text;
                 text.asOrderedText().accept((index, style, codePoint) -> {
